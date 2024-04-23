@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { ExpenseItem } from "../expense-item/ExpenseItem";
 import { ExpenseFilter } from "../expense-filter/ExpenseFilter";
 import { useState } from "react";
+import ChartWrapper from "../chart/ChartWrapper";
 
 export const Expenses = ({ data, onDelete }) => {
   const [selectedYear, setSelectedYear] = useState("All");
@@ -22,6 +23,7 @@ export const Expenses = ({ data, onDelete }) => {
   return (
     <ul>
       <ExpenseFilter value={selectedYear} onChange={yearChangeHandler} />
+      <ChartWrapper data={renderedExpenses}/>
       {renderedExpenses.map((item) => {
         return (
           <ExpenseItem
