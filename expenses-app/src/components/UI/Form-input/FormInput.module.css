@@ -15,3 +15,9 @@
   font-weight: 400;
   outline: none;
 }
+.error {
+  color: red;
+}
+.formInput .errorBorder {
+  border: 1px solid red;
+}
