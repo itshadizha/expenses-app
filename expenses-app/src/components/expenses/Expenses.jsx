@@ -1,18 +1,38 @@
-// more expenses components will be added here
-import { ExpenseItem } from "../expense-item/ExpenseItem";
 import PropTypes from "prop-types";
-import css from "./Expenses.module.css";
+import { ExpenseItem } from "../expense-item/ExpenseItem";
+import { ExpenseFilter } from "../expense-filter/ExpenseFilter";
+import { useState } from "react";
+import ChartWrapper from "../chart/ChartWrapper";
 
-export const Expenses = ({ expenses }) => {
+export const Expenses = ({ data, onDelete }) => {
+  const [selectedYear, setSelectedYear] = useState("All");
+
+  const yearChangeHandler = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
+  const filteredExpenses = data.filter((item) => {
+    if (selectedYear) {
+      return item.date.getFullYear().toString() === selectedYear;
+    }
+    return false;
+  });
+
+  const renderedExpenses = selectedYear === "All" ? data : filteredExpenses;
+
   return (
-    <ul className={css.expenseWrapper}>
-      {expenses.map((item) => {
+    <ul>
+      <ExpenseFilter value={selectedYear} onChange={yearChangeHandler} />
+      <ChartWrapper data={renderedExpenses}/>
+      {renderedExpenses.map((item) => {
         return (
           <ExpenseItem
             key={item.id}
-            title={item.title}
             date={item.date}
+            title={item.title}
             price={item.price}
+            id={item.id}
+            onDelete={onDelete}
           />
         );
       })}
@@ -21,5 +41,6 @@ export const Expenses = ({ expenses }) => {
 };
 
 Expenses.propTypes = {
-  expenses: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired,
+  onDelete: PropTypes.func,
 };

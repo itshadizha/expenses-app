@@ -1,19 +1,21 @@
 import { useState } from "react";
-import Button from "../UI/Button/Button";
+import { Button } from "../UI/Button/Button";
 import { ExpenseForm } from "../expense-form/ExpenseForm";
 import css from "./NewExpense.module.css";
-export const NewExpense = () => {
+
+const NewExpense = ({ onAdd }) => {
   const [showForm, setShowForm] = useState(false);
-  const newExpenseHandler = () => {
+  function showFormHandler() {
     setShowForm((prevState) => !prevState);
-  };
-  return (
-    <div className={css.newExpenseStyles}>
-      {showForm ? (
-        <ExpenseForm onShowForm={newExpenseHandler} />
-      ) : (
-        <Button title="Добавить новый расход" onClick={newExpenseHandler} />
-      )}
-    </div>
+  }
+
+  const form = showForm ? (
+    <ExpenseForm onShowForm={showFormHandler} onAdd={onAdd} />
+  ) : (
+    <Button text="Добавить новый расход" onClick={showFormHandler} />
   );
+
+  return <div className={css.newExpenseStyles}>{form}</div>;
 };
+
+export default NewExpense;
